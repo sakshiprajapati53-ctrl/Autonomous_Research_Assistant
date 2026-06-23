@@ -5,6 +5,7 @@ from database.models import User
 from schemas.user_schema import (UserCreate,UserLogin,UserResponse,Token)
 from auth.password_utils import (hash_password,verify_password)
 from auth.jwt_handler import create_access_token
+from auth.dependencies import get_current_user
 
 
 router = APIRouter(
@@ -20,7 +21,7 @@ router = APIRouter(
 )
 def register(
     user: UserCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db) # FastAPI, give me database session 
 ):
 
 # Check if email already exists
@@ -34,7 +35,7 @@ def register(
             detail="Email already registered"
         )
 
-# Hash password
+# Hash password  used at the time of registration
     hashed_password = hash_password(
         user.password
     )
@@ -60,7 +61,7 @@ def register(
 )
 def login(
     user: UserLogin,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db) # FastAPI, give me database session 
 ):
 
 # Find user by email
@@ -96,3 +97,12 @@ def login(
         "access_token": access_token,
         "token_type": "bearer"
     }
+
+@router.get(
+    "/me",
+    response_model=UserResponse
+)
+def get_me(
+    current_user: User = Depends(get_current_user)
+):
+    return current_user
