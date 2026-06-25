@@ -16,6 +16,4 @@ def planner_node(state):
     tasks = planner_agent(state["query"])
 
     return {"tasks": tasks}
-
-def research_node(state):
     

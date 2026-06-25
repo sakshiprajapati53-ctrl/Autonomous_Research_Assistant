@@ -1,4 +1,4 @@
-# FastApi application will start
+#step 1 # FastApi application will start
 from fastapi import FastAPI
 from api.auth_routes import router as auth_router
 from api.research_routes import router as research_router
