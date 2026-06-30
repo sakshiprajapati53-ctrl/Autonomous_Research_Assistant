@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from api.auth_routes import router as auth_router
 from api.research_routes import router as research_router
+from api.pdf_routers import router as pdf_router
 
 app = FastAPI()
 
@@ -10,6 +11,9 @@ app.include_router(auth_router)
 
 # Research APIs
 app.include_router(research_router)
+
+#Include Router
+app.include_router(pdf_router)
 
 @app.get("/")
 def home():

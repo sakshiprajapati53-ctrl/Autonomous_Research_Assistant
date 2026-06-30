@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database.db import get_db
 from database.models import User
-from schemas.user_schema import (UserCreate,UserLogin,UserResponse,Token)
+from schemas.user_schema import (UserCreate,Userlogin,UserResponse,Token)
 from auth.password_utils import (hash_password,verify_password)
 from auth.jwt_handler import create_access_token
 from auth.dependencies import get_current_user
@@ -27,7 +27,7 @@ def register(
 # Check if email already exists
     existing_user = db.query(User).filter(
         User.email == user.email
-    ).first()
+        ).first()
 
     if existing_user:
         raise HTTPException(
@@ -60,7 +60,7 @@ def register(
     response_model=Token
 )
 def login(
-    user: UserLogin,
+    user: Userlogin,
     db: Session = Depends(get_db) # FastAPI, give me database session 
 ):
 
